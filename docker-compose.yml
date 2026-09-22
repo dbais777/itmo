@@ -3,15 +3,15 @@ version: "3.8"
 services:
   backend:
     build:
-      context: ./backend
+      context: ./project-name
       dockerfile: Dockerfile
     image: itmo_backend:latest
-    ports:
-      - "8000:8000"
     volumes:
-      - ./backend:/app
+      - ./project-name:/app
     environment:
       - NODE_ENV=production
+    networks:
+      - itmo_net
 
   frontend:
     build:
@@ -24,3 +24,12 @@ services:
       - backend
     volumes:
       - ./my-vue-app:/app
+      - /app/node_modules
+    environment:
+      - VITE_API_URL=http://backend:3000/video
+    networks:
+      - itmo_net
+
+networks:
+  itmo_net:
+    driver: bridge
