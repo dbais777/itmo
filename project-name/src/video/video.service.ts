@@ -18,7 +18,10 @@ export class VideoService {
     const host = process.env.DATABASE_HOST ?? 'postgres';
     const port = Number(process.env.DATABASE_PORT ?? 5432);
     const user = process.env.DATABASE_USER ?? 'itmo_user';
-    const password = process.env.DATABASE_PASSWORD ?? 'itmo_pass';
+    const password = process.env.DATABASE_PASSWORD;
+    if (!password) {
+      throw new Error('DATABASE_PASSWORD not set in environment');
+    }
     const database = process.env.DATABASE_NAME ?? 'itmo_db';
 
     this.pool = new Pool({ host, port, user, password, database });

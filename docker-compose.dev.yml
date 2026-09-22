@@ -7,7 +7,7 @@ services:
       - DATABASE_HOST=postgres
       - DATABASE_PORT=5432
       - DATABASE_USER=itmo_user
-      - DATABASE_PASSWORD=itmo_pass
+      - DATABASE_PASSWORD=${POSTGRES_PASSWORD}
       - DATABASE_NAME=itmo_db
     command: npm run start:dev
     volumes:

@@ -3,7 +3,11 @@ const { Pool } = pkg;
 const host = process.env.DATABASE_HOST || 'postgres';
 const port = parseInt(process.env.DATABASE_PORT || '5432', 10);
 const user = process.env.DATABASE_USER || 'itmo_user';
-const password = process.env.DATABASE_PASSWORD || 'itmo_pass';
+const password = process.env.DATABASE_PASSWORD;
+if (!password) {
+  console.error('DATABASE_PASSWORD is not set. Set it in your environment or .env file.');
+  process.exit(1);
+}
 const database = process.env.DATABASE_NAME || 'itmo_db';
 const pool = new Pool({ host, port, user, password, database });
 const rows = [
