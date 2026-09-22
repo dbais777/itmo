@@ -1,6 +1,7 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule, ObserveInstrument } from './app.module.js';
+import type { Request, Response, NextFunction } from 'express';
 
 async function bootstrap() {
   const configuredPort = Number(process.env.PORT);
@@ -15,6 +16,13 @@ async function bootstrap() {
     methods: ['GET', 'POST'],
   });
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+
+  // Simple request logger for incoming HTTP requests
+  app.use((req: Request, res: Response, next: NextFunction) => {
+    console.log(`${new Date().toISOString()} ${req.method} ${req.url}`);
+    next();
+  });
+
   await app.listen(port);
   console.log(`Backend is running in ${nodeEnv} mode on port ${port}.`);
 }
