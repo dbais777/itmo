@@ -24,6 +24,6 @@ async function bootstrap() {
   });
 
   await app.listen(port);
-  console.log(`Backend is running in ${nodeEnv} mode on port ${port}.`);
+  console.log(`Backend is running in ${nodeEnv} mode on port ${port}. [cache-test]`);
 }
 await bootstrap();
