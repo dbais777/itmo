@@ -82,7 +82,7 @@ onMounted(loadVideos);
   <main>
     <section>
       <p>Video API</p>
-      <h1>Библиотека видео</h1>
+      <h1>Библиотека видео (dev)</h1>
        </section>
 
     <section aria-labelledby="create-video-title">

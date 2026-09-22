@@ -22,12 +22,13 @@ services:
       - ./project-name:/app
       - /app/node_modules
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=development
       - DATABASE_HOST=postgres
       - DATABASE_PORT=5432
       - DATABASE_USER=itmo_user
       - DATABASE_PASSWORD=itmo_pass
       - DATABASE_NAME=itmo_db
+    command: npm run start:dev
     networks:
       - itmo_net
 
@@ -45,6 +46,7 @@ services:
       - /app/node_modules
     environment:
       - VITE_API_URL=http://backend:3000/video
+    command: npm run dev -- --host 0.0.0.0
     networks:
       - itmo_net
 
