@@ -24,6 +24,8 @@ services:
       context: ./project-name
       dockerfile: Dockerfile
     image: itmo_backend:latest
+    depends_on:
+      - postgres
     environment:
       - NODE_ENV=production
       - DATABASE_HOST=postgres
