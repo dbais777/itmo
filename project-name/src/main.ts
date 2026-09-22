@@ -3,6 +3,10 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule, ObserveInstrument } from './app.module.js';
 
 async function bootstrap() {
+  const configuredPort = Number(process.env.PORT);
+  const port = Number.isInteger(configuredPort) && configuredPort > 0 ? configuredPort : 3000;
+  const nodeEnv = process.env.NODE_ENV ?? 'development';
+
   const app = await NestFactory.create(AppModule, {
     instrument: ObserveInstrument,
   });
@@ -11,6 +15,7 @@ async function bootstrap() {
     methods: ['GET', 'POST'],
   });
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(port);
+  console.log(`Backend is running in ${nodeEnv} mode on port ${port}.`);
 }
 await bootstrap();
