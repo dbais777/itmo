@@ -8,7 +8,7 @@ interface Video {
   duration: number;
 }
 
-const apiUrl = 'http://localhost:3000/video';
+const apiUrl = import.meta.env.VITE_API_URL ?? '/api/video';
 const title = ref('');
 const duration = ref<number | null>(null);
 const videos = ref<Video[]>([]);
