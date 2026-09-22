@@ -7,6 +7,7 @@ export interface Video {
   id: string;
   title: string;
   duration: number;
+  viewsCount: number;
 }
 
 @Injectable()
@@ -28,7 +29,8 @@ export class VideoService {
         `CREATE TABLE IF NOT EXISTS videos (
           id UUID PRIMARY KEY,
           title TEXT NOT NULL,
-          duration INTEGER NOT NULL
+          duration INTEGER NOT NULL,
+          viewscount INTEGER NOT NULL DEFAULT 0
         )`
       )
       .catch((err: unknown) => {
@@ -37,12 +39,12 @@ export class VideoService {
   }
 
   async findAll(): Promise<Video[]> {
-    const res = await this.pool.query('SELECT id, title, duration FROM videos ORDER BY title');
+    const res = await this.pool.query('SELECT id, title, duration, viewscount AS "viewsCount" FROM videos ORDER BY title');
     return res.rows as Video[];
   }
 
   async findOne(id: string): Promise<Video> {
-    const res = await this.pool.query('SELECT id, title, duration FROM videos WHERE id = $1', [id]);
+    const res = await this.pool.query('SELECT id, title, duration, viewscount AS "viewsCount" FROM videos WHERE id = $1', [id]);
 
     if (res.rowCount === 0) {
       throw new NotFoundException('Video not found');
@@ -57,7 +59,7 @@ export class VideoService {
 
     try {
       await this.pool.query('INSERT INTO videos(id, title, duration) VALUES($1, $2, $3)', [id, title, duration]);
-      return { id, title, duration };
+      return { id, title, duration, viewsCount: 0 };
     } catch (err) {
       console.error('Failed to insert video', err);
       throw new InternalServerErrorException('Failed to create video');

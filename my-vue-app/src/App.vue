@@ -6,6 +6,7 @@ interface Video {
   id: string;
   title: string;
   duration: number;
+  viewsCount: number;
 }
 
 const apiUrl = import.meta.env.VITE_API_URL ?? '/api/video';
@@ -135,6 +136,7 @@ onMounted(loadVideos);
         <li v-for="video in videos" :key="video.id">
           <div>
             <h3>{{ video.title }}</h3>
+            <p>Длительность: {{ video.duration }} с — Просмотры: {{ video.viewsCount ?? 0 }}</p>
             <code>{{ video.id }}</code>
           </div>
            </li>
