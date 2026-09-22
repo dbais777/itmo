@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  backend:
+    environment:
+      - NODE_ENV=development
+      - DATABASE_HOST=postgres
+      - DATABASE_PORT=5432
+      - DATABASE_USER=itmo_user
+      - DATABASE_PASSWORD=itmo_pass
+      - DATABASE_NAME=itmo_db
+    command: npm run start:dev
+    volumes:
+      - ./project-name:/app
+      - /app/node_modules
+    networks:
+      - itmo_net
+
+  frontend:
+    environment:
+      - VITE_API_URL=http://backend:3000/video
+    command: npm run dev -- --host 0.0.0.0
+    volumes:
+      - ./my-vue-app:/app
+      - /app/node_modules
+    networks:
+      - itmo_net
+
+networks:
+  itmo_net:
+    driver: bridge

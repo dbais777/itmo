@@ -18,17 +18,13 @@ services:
       context: ./project-name
       dockerfile: Dockerfile
     image: itmo_backend:latest
-    volumes:
-      - ./project-name:/app
-      - /app/node_modules
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
       - DATABASE_HOST=postgres
       - DATABASE_PORT=5432
       - DATABASE_USER=itmo_user
       - DATABASE_PASSWORD=itmo_pass
       - DATABASE_NAME=itmo_db
-    command: npm run start:dev
     networks:
       - itmo_net
 
@@ -41,12 +37,8 @@ services:
       - "8080:8080"
     depends_on:
       - backend
-    volumes:
-      - ./my-vue-app:/app
-      - /app/node_modules
     environment:
       - VITE_API_URL=http://backend:3000/video
-    command: npm run dev -- --host 0.0.0.0
     networks:
       - itmo_net
 
