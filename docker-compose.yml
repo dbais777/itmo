@@ -1,6 +1,18 @@
 version: "3.8"
 
 services:
+  postgres:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=itmo_user
+      - POSTGRES_PASSWORD=itmo_pass
+      - POSTGRES_DB=itmo_db
+    volumes:
+      - itmo_pgdata:/var/lib/postgresql/data
+    networks:
+      - itmo_net
+
   backend:
     build:
       context: ./project-name
@@ -8,8 +20,14 @@ services:
     image: itmo_backend:latest
     volumes:
       - ./project-name:/app
+      - /app/node_modules
     environment:
       - NODE_ENV=production
+      - DATABASE_HOST=postgres
+      - DATABASE_PORT=5432
+      - DATABASE_USER=itmo_user
+      - DATABASE_PASSWORD=itmo_pass
+      - DATABASE_NAME=itmo_db
     networks:
       - itmo_net
 
@@ -33,3 +51,6 @@ services:
 networks:
   itmo_net:
     driver: bridge
+
+volumes:
+  itmo_pgdata:
