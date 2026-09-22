@@ -1,7 +1,10 @@
 node_modules
+
 dist
-coverage
+build
 .git
 .env
+.env.local
 *.tsbuildinfo
 npm-debug.log
+.DS_Store
