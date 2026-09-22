@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: itmo_backend:latest
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    environment:
+      - NODE_ENV=production
+
+  frontend:
+    build:
+      context: ./my-vue-app
+      dockerfile: Dockerfile
+    image: itmo_frontend:latest
+    ports:
+      - "8080:8080"
+    depends_on:
+      - backend
+    volumes:
+      - ./my-vue-app:/app
